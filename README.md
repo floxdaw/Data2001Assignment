@@ -27,11 +27,15 @@ I will explain the cleaning for each data set:
     3. removed punctuation from columns that are meant ot be numbers
     4. cast all the values that are 'objects' to nicer data types
     5. set empty cells as NaN
-    6. remove the rows whos neighbourhoods are not in greater sydney
+    6. remove the rows whos neighbourhoods are not in greater sydney  
+    7. cast the area_name as a string
     
-- catchments
+- break and Enter 
+    1. make all the column labels lowercase
+    2. Cast density as a string
+    3. 
 
-- break and Enter
+- Catchments
 
 - Greenhouse gas emissions
 

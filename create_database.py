@@ -41,4 +41,35 @@ CREATE TABLE neighborhoods(
 neighbours = dc.neighbours
 neighbours.to_sql('neighborhoods', conn, if_exists='append', index=False)
 
-# ds.close_connection(conn, db)
+conn.execute("""
+DROP TABLE IF EXISTS business_stats;
+CREATE TABLE business_stats(
+   area_id INTEGER PRIMARY KEY REFERENCES sa2(sa2_code),
+   area_name VARCHAR(100) REFERENCES sa2(sa2_name),
+   number_of_businesses INTEGER,
+   accommodation_and_food_services INTEGER,
+   retail_trade INTEGER,
+   health_care_and_social_assistance INTEGER
+);""")
+
+business_stats = dc.business_stats
+business_stats.to_sql('business_stats', conn, if_exists='append', index=False)
+
+
+conn.execute("""
+DROP TABLE IF EXISTS b_and_e;
+CREATE TABLE b_and_e(
+   objectid INTEGER PRIMARY KEY,
+   density varchar(50),
+   shape_length FLOAT,
+   shape_area FLOAT,
+   geom GEOMETRY(MULTIPOLYGON,4283)
+);""")
+
+break_and_enter = dc.break_and_enter
+break_and_enter.to_sql('b_and_e', conn, if_exists='append', index=False,
+           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
+
+
+
+#ds.close_connection(conn, db)

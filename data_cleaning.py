@@ -96,7 +96,37 @@ business_stats = pd.read_csv("BusinessStats.csv")
 # Dropping business sctors that are not of intrest
 business_stats = business_stats.drop(columns=['public_administration_and_safety', 'transport_postal_and_warehousing',
                                               'agriculture_forestry_and_fishing'])
+
+# remove regions not an sa2
+not_sa2_region = []
+for index, row in business_stats.iterrows():
+    if row['area_id'] not in list(SA2['sa2_code']):
+        not_sa2_region.append(index)
+
+business_stats.drop(not_sa2_region, axis=0, inplace=True)
+ #cast as string
+business_stats['area_name'] = business_stats['area_name'].astype('string')
 ###################################################################
+
+break_and_enter = gpd.read_file("bae/BreakEnterDwelling_JanToDec2021.shp")
+
+# make lower
+break_and_enter.columns = break_and_enter.columns.str.lower()
+
+#cast as string
+break_and_enter['density'] = break_and_enter['density'].astype('string')
+
+#change geometry datatype
+srid = 4283  # this is the id of the Australian coordinate system
+break_and_enter['geom'] = break_and_enter['geometry'].apply(lambda x: create_wkt_element(x, srid))  # applying the function
+
+# remove columns we don't need
+break_and_enter = break_and_enter.drop(columns=['contour', 'orig_fid',"geometry"])
+
+# rename columns to something nice
+break_and_enter.rename(
+    columns={'shape_leng': 'shape_length'}, inplace=True)
+##################################################################
 
 
 catchments_future = gpd.read_file("catchments/catchments_future.shp")
@@ -104,12 +134,6 @@ catchments_primary = gpd.read_file("catchments/catchments_primary.shp")
 catchments_secondary = gpd.read_file("catchments/catchments_secondary.shp")
 
 #####################################################################
-
-
-break_and_enter = gpd.read_file("bae/BreakEnterDwelling_JanToDec2021.shp")
-
-
-##################################################################
 
 
 greenhouse_gas_emissions = gpd.read_file("greenhouse/Greenhouse_gas_emissions_profile_by_suburb.shp")
