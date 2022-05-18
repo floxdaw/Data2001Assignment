@@ -66,3 +66,16 @@ I will explain the cleaning for each data set:
     3. rename
     4. then ran a quick fix to remove any walking measuremnts rows from the previous table (walking counts) so that we could reference the site_id
 
+####File 3 - create_database.py
+
+This one just has the code where I created each table in the database. You can see the primary and forign keys.
+this is mostly for a reference, but we can refer back to it if we forget the schema
+
+####File 4 - database_schema.jpeg
+
+REFER TO THIS FOR A NICE LOOK AT THE DATABASE WE HAVE.
+
+### Table descriptions
+
+I will do these tomorrow. You can get a good idea from the titles and the CREATE TABLE functions in the previous file. 
+Sen me a message if you urgently need table descriptions
