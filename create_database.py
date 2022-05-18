@@ -72,4 +72,95 @@ break_and_enter.to_sql('b_and_e', conn, if_exists='append', index=False,
 
 
 
+conn.execute("""
+DROP TABLE IF EXISTS catchments;
+CREATE TABLE catchments(
+   use_id INTEGER PRIMARY KEY,
+   catch_type varchar(50),
+   use_desc VARCHAR(50),
+   kindergarten INTEGER,
+   year1 INTEGER,
+   year2 INTEGER,
+   year3 INTEGER,
+   year4 INTEGER,
+   year5 INTEGER,
+   year6 INTEGER,
+   year7 INTEGER,
+   year8 INTEGER,
+   year9 INTEGER,
+   year10 INTEGER,
+   year11 INTEGER,
+   year12 INTEGER,
+   geom GEOMETRY(MULTIPOLYGON,4283)
+);""")
+
+catchments_all_rows = dc.catchments_all_rows
+catchments_all_rows.to_sql('catchments', conn, if_exists='append', index=False,
+           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
+
+
+
+conn.execute("""
+DROP TABLE IF EXISTS greenhouse_gas_per_suburb;
+CREATE TABLE greenhouse_gas_per_suburb(
+   object_id INTEGER PRIMARY KEY,
+   suburb varchar(50),
+   data_category VARCHAR(50),
+   f2005_06 FLOAT,
+   f2006_07 FLOAT,
+   f2007_08 FLOAT,
+   f2008_09 FLOAT,
+   f2009_10 FLOAT,
+   f2010_11 FLOAT,
+   f2011_12 FLOAT,
+   f2012_13 FLOAT,
+   f2013_14 FLOAT,
+   f2014_15 FLOAT,
+   f2015_16 FLOAT,
+   f2016_17 FLOAT,
+   f2017_18 FLOAT,
+   f2018_19 FLOAT,
+   shape_area FLOAT,
+   shape_length FLOAT,
+   geom GEOMETRY(MULTIPOLYGON,4283)
+);""")
+
+greenhouse_gas_emissions = dc.greenhouse_gas_emissions
+greenhouse_gas_emissions.to_sql('greenhouse_gas_per_suburb', conn, if_exists='append', index=False,
+           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
+
+
+conn.execute("""
+DROP TABLE IF EXISTS walking_counts;
+CREATE TABLE walking_counts(
+   object_id INTEGER PRIMARY KEY,
+   site_id INTEGER REFERENCES walking_sites(site_id),
+   location VARCHAR(100) ,
+   description VARCHAR(200),
+   period VARCHAR(50),
+   year INTEGER,
+   season VARCHAR(50),
+   totalcount INTEGER,
+   month VARCHAR(15),
+   morning INTEGER,
+   afternoon INTEGER,
+   night INTEGER
+);""")
+
+walking_counts = dc.walking_counts
+walking_counts.to_sql('walking_counts', conn, if_exists='append', index=False)
+
+
+conn.execute("""
+DROP TABLE IF EXISTS walking_sites;
+CREATE TABLE walking_sites(
+   object_id INTEGER PRIMARY KEY,
+   site_id INTEGER UNIQUE,
+   location VARCHAR(100),
+   site_description VARCHAR(200),
+   geom GEOMETRY(POINT,4283)
+);""")
+
+walking_c_sites = dc.walking_c_sites
+walking_c_sites.to_sql('walking_sites', conn, if_exists='append', index=False, dtype={'geom': Geometry('POINT', 4283)})
 #ds.close_connection(conn, db)

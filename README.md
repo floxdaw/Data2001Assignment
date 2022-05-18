@@ -30,16 +30,39 @@ I will explain the cleaning for each data set:
     6. remove the rows whos neighbourhoods are not in greater sydney  
     7. cast the area_name as a string
     
-- break and Enter 
+- break and Enter - at this stage I am starting to re peat a lot of the cleaning stuff so I'll keep it short
     1. make all the column labels lowercase
     2. Cast density as a string
-    3. 
+    3. change the geometry types
+    4. remove redundant columns
+    5. rename columns
 
-- Catchments
+- Catchments - ok this one was a pain in my ass
+    1. comboine the 3 shapefiles into 1
+    2. also remove redundant columns
+    3. make lowercase
+    4. cast as useful types
+    5. convert all of the columns with Y and N to {1,0}
+    6. cast again
+    7. make polygons noice
+    8. rename 1 column
+    9. I realsied that school show up in more than one of the shapefiles, so some scools where in the main dataframe like 3 times. so I had to aggregate and combine the rows with the same Use_id
 
 - Greenhouse gas emissions
+    1. lower and cast as usual
+    2. rename columns to be nicer
+    3. 
 
 - walking counts
+    1. first we have to do a weird split thing. The moth column is originally in the format "2013 - Weekday - October" which is weird and confusing so I just extracted the moth word eg October
+    2. lower coluns again
+    3. then I summed the values for each hour into morning, afternoon and evening corresponding to 6am -11am, 12pm - 6pm, 7pm - 12am blocks
+    4. I then dropped the old per/hour measurment columns
+    5. casting and renaming finally  
 
 - walking count sites
+    1. lower and cast
+    2. fix point geometry
+    3. rename
+    4. then ran a quick fix to remove any walking measuremnts rows from the previous table (walking counts) so that we could reference the site_id
 
