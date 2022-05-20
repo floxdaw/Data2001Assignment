@@ -106,7 +106,6 @@ business_stats.drop(not_sa2_region, axis=0, inplace=True)
 # cast as string
 business_stats['area_name'] = business_stats['area_name'].astype('string')
 
-
 business_stats.rename(
     columns={'area_id': 'sa2_code', 'area_name': 'sa2_name'}, inplace=True)
 ###################################################################
@@ -211,7 +210,7 @@ greenhouse_gas_emissions.rename(
 bad_col = []
 
 for index, row in greenhouse_gas_emissions.iterrows():
-    if row['data_category'] == ('Waste Water (Disaggregated)' or 'Other Scope 3 (Disaggregated)'):
+    if row['data_category'] == 'Waste Water (Disaggregated)' or row['data_category'] == 'Other Scope 3 (Disaggregated)':
         bad_col.append(index)
 
 greenhouse_gas_emissions.drop(bad_col, axis=0, inplace=True)
@@ -229,7 +228,7 @@ walking_counts['morning'] = walking_counts.iloc[:, 9:14].sum(axis=1)
 walking_counts['afternoon'] = walking_counts.iloc[:, 15:21].sum(axis=1)
 walking_counts['night'] = walking_counts.iloc[:, 22:27].sum(axis=1)
 
-walking_counts.drop(walking_counts.iloc[:, 9:27], axis = 1, inplace=True)
+walking_counts.drop(walking_counts.iloc[:, 9:27], axis=1, inplace=True)
 
 walking_counts['location'] = walking_counts['location'].astype('string')
 walking_counts['description'] = walking_counts['description'].astype('string')
@@ -239,9 +238,6 @@ walking_counts['month'] = walking_counts['month'].astype('string')
 
 walking_counts.rename(
     columns={'objectid': 'object_id', 'siteid': 'site_id'}, inplace=True)
-
-
-
 
 #################################
 
@@ -253,11 +249,9 @@ walking_c_sites.columns = walking_c_sites.columns.str.lower()
 walking_c_sites['location'] = walking_c_sites['location'].astype('string')
 walking_c_sites['sitedescription'] = walking_c_sites['sitedescription'].astype('string')
 
-
-
 walking_c_sites['geom'] = walking_c_sites['geometry'].apply(lambda x: WKTElement(x.wkt, srid=srid))
 walking_c_sites.rename(
-    columns={'objectid':'object_id', 'sitedescription': 'site_description', 'geometry': 'geom'}, inplace=True)
+    columns={'objectid': 'object_id', 'sitedescription': 'site_description', 'geometry': 'geom'}, inplace=True)
 
 not_in_walking_sites = []
 for index, row in walking_counts.iterrows():

@@ -4,6 +4,12 @@ from geoalchemy2 import Geometry
 import matplotlib.pyplot as plt
 import geopandas as gpd
 
+
+def normalise(column_string, dataset):
+    return (dataset[column_string] - dataset[column_string].min()) / (
+            dataset[column_string].max() - dataset[column_string].min())
+
+
 # import geoplot #https://stackoverflow.com/questions/70177062/cartopy-not-able-to-identify-geos-for-proj-install-on-windows
 import mapclassify
 
@@ -43,8 +49,7 @@ health.loc[health['ratio'] > 40, 'ratio'] = 40
 
 health['ratio'] = health['ratio'].fillna(0)
 
-health['ratio_normalised'] = (health['ratio'] - health['ratio'].min()) / (health['ratio'].max() - health['ratio'].min())
-
+health['normalised_ratio'] = normalise('ratio', health)
 
 # number of school catchment areas per 1000 young people
 sql = """
@@ -55,5 +60,18 @@ FULL OUTER JOIN neighborhoods n USING (sa2_code)
 GROUP BY s.sa2_name, young_people
 """
 print(ds.query(conn, sql))
+
+## green house gas question
+sql = """
+select suburb, SUM ( ROUND(cast((f2018_19 - f2015_16) AS numeric), 3)) as change
+from greenhouse_gas_per_suburb
+GROUP BY suburb
+ORDER BY suburb;
+"""
+print(ds.query(conn, sql))
+
+green = pd.DataFrame(ds.query(conn, sql))
+
+green['normalised_change'] = normalise('change', green)
 
 # ds.close_connection(conn, db)

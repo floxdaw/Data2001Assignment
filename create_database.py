@@ -156,3 +156,7 @@ CREATE TABLE walking_sites(
 walking_c_sites = dc.walking_c_sites
 walking_c_sites.to_sql('walking_sites', conn, if_exists='append', index=False, dtype={'geom': Geometry('POINT', 4283)})
 # ds.close_connection(conn, db)
+
+
+
+
