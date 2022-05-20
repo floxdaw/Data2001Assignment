@@ -86,6 +86,9 @@ for index, row in neighbours.iterrows():
 
 neighbours.drop(not_sa2_region, axis=0, inplace=True)
 
+neighbours.rename(
+    columns={'area_id': 'sa2_code', 'area_name': 'sa2_name'}, inplace=True)
+
 ############################################################
 
 business_stats = pd.read_csv("BusinessStats.csv")
@@ -102,6 +105,10 @@ for index, row in business_stats.iterrows():
 business_stats.drop(not_sa2_region, axis=0, inplace=True)
 # cast as string
 business_stats['area_name'] = business_stats['area_name'].astype('string')
+
+
+business_stats.rename(
+    columns={'area_id': 'sa2_code', 'area_name': 'sa2_name'}, inplace=True)
 ###################################################################
 
 break_and_enter = gpd.read_file("bae/BreakEnterDwelling_JanToDec2021.shp")
@@ -122,7 +129,7 @@ break_and_enter = break_and_enter.drop(columns=['contour', 'orig_fid', "geometry
 
 # rename columns to something nice
 break_and_enter.rename(
-    columns={'shape_leng': 'shape_length'}, inplace=True)
+    columns={'shape_leng': 'shape_length', 'objectid': 'object_id'}, inplace=True)
 ##################################################################
 
 # reading all files

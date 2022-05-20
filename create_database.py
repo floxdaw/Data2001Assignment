@@ -28,8 +28,8 @@ SA2.to_sql('sa2', conn, if_exists='append', index=False,
 conn.execute("""
 DROP TABLE IF EXISTS neighborhoods;
 CREATE TABLE neighborhoods(
-   area_id INTEGER PRIMARY KEY REFERENCES sa2(sa2_code),
-   area_name VARCHAR(100) REFERENCES sa2(sa2_name),
+   sa2_code INTEGER PRIMARY KEY REFERENCES sa2(sa2_code),
+   sa2_name VARCHAR(100) REFERENCES sa2(sa2_name),
    land_area FLOAT,
    population FLOAT,
    number_of_dwellings FLOAT,
@@ -44,8 +44,8 @@ neighbours.to_sql('neighborhoods', conn, if_exists='append', index=False)
 conn.execute("""
 DROP TABLE IF EXISTS business_stats;
 CREATE TABLE business_stats(
-   area_id INTEGER PRIMARY KEY REFERENCES sa2(sa2_code),
-   area_name VARCHAR(100) REFERENCES sa2(sa2_name),
+   sa2_code INTEGER PRIMARY KEY REFERENCES sa2(sa2_code),
+   sa2_name VARCHAR(100) REFERENCES sa2(sa2_name),
    number_of_businesses INTEGER,
    accommodation_and_food_services INTEGER,
    retail_trade INTEGER,
@@ -59,7 +59,7 @@ business_stats.to_sql('business_stats', conn, if_exists='append', index=False)
 conn.execute("""
 DROP TABLE IF EXISTS b_and_e;
 CREATE TABLE b_and_e(
-   objectid INTEGER PRIMARY KEY,
+   object_id INTEGER PRIMARY KEY,
    density varchar(50),
    shape_length FLOAT,
    shape_area FLOAT,
