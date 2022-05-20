@@ -1,9 +1,0 @@
-conn.execute("""
-DROP TABLE IF EXISTS sa2;
-CREATE TABLE cities (
-    sa2_main16 INTEGAR PRIMARY KEY,
-    population INTEGER,
-    capital VARCHAR(10),
-    geom GEOMETRY(POINT,4326)
-);"""
-)

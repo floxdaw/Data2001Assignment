@@ -24,7 +24,6 @@ SA2 = dc.SA2
 SA2.to_sql('sa2', conn, if_exists='append', index=False,
            dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
 
-
 conn.execute("""
 DROP TABLE IF EXISTS neighborhoods;
 CREATE TABLE neighborhoods(
@@ -55,7 +54,6 @@ CREATE TABLE business_stats(
 business_stats = dc.business_stats
 business_stats.to_sql('business_stats', conn, if_exists='append', index=False)
 
-
 conn.execute("""
 DROP TABLE IF EXISTS b_and_e;
 CREATE TABLE b_and_e(
@@ -68,9 +66,7 @@ CREATE TABLE b_and_e(
 
 break_and_enter = dc.break_and_enter
 break_and_enter.to_sql('b_and_e', conn, if_exists='append', index=False,
-           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
-
-
+                       dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
 
 conn.execute("""
 DROP TABLE IF EXISTS catchments;
@@ -96,9 +92,7 @@ CREATE TABLE catchments(
 
 catchments_all_rows = dc.catchments_all_rows
 catchments_all_rows.to_sql('catchments', conn, if_exists='append', index=False,
-           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
-
-
+                           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
 
 conn.execute("""
 DROP TABLE IF EXISTS greenhouse_gas_per_suburb;
@@ -127,8 +121,7 @@ CREATE TABLE greenhouse_gas_per_suburb(
 
 greenhouse_gas_emissions = dc.greenhouse_gas_emissions
 greenhouse_gas_emissions.to_sql('greenhouse_gas_per_suburb', conn, if_exists='append', index=False,
-           dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
-
+                                dtype={'geom': Geometry(geometry_type='MULTIPLOYGON', srid=4283)})
 
 conn.execute("""
 DROP TABLE IF EXISTS walking_counts;
@@ -150,7 +143,6 @@ CREATE TABLE walking_counts(
 walking_counts = dc.walking_counts
 walking_counts.to_sql('walking_counts', conn, if_exists='append', index=False)
 
-
 conn.execute("""
 DROP TABLE IF EXISTS walking_sites;
 CREATE TABLE walking_sites(
@@ -163,4 +155,4 @@ CREATE TABLE walking_sites(
 
 walking_c_sites = dc.walking_c_sites
 walking_c_sites.to_sql('walking_sites', conn, if_exists='append', index=False, dtype={'geom': Geometry('POINT', 4283)})
-#ds.close_connection(conn, db)
+# ds.close_connection(conn, db)
