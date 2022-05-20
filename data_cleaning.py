@@ -207,6 +207,14 @@ greenhouse_gas_emissions.rename(
     columns={'objectid1': 'object_id', 'area_subur': 'suburb', 'data_categ': 'data_category',
              'shape__are': 'shape_area',
              'shape__len': 'shape_length'}, inplace=True)
+
+bad_col = []
+
+for index, row in greenhouse_gas_emissions.iterrows():
+    if row['data_category'] == ('Waste Water (Disaggregated)' or 'Other Scope 3 (Disaggregated)'):
+        bad_col.append(index)
+
+greenhouse_gas_emissions.drop(bad_col, axis=0, inplace=True)
 ##########################################
 
 walking_counts = pd.read_csv("Walking_count_surveys.csv")
