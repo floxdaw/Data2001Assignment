@@ -43,3 +43,4 @@ def query(conn, sqlcmd, args=None, df=True):
 def close_connection(conn, db):
     conn.close()
     db.dispose()
+    print("Connection closed")

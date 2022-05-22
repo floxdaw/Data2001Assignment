@@ -1,13 +1,9 @@
 import database_setup as ds
 import pandas as pd
-from geoalchemy2 import Geometry
-import matplotlib.pyplot as plt
 import geopandas as gpd
 
 
-def normalise(column_string, dataset):
-    return (dataset[column_string] - dataset[column_string].min()) / (
-            dataset[column_string].max() - dataset[column_string].min())
+
 
 
 # import geoplot #https://stackoverflow.com/questions/70177062/cartopy-not-able-to-identify-geos-for-proj-install-on-windows
@@ -35,21 +31,6 @@ AND s.sa2_name = n.sa2_name
 ORDER by ratio DESC
 """
 print(pd.DataFrame(ds.query(conn, sql)))
-
-health = gpd.read_postgis("""
-SELECT b.sa2_name, b.health_care_and_social_assistance/(n.population/1000) AS ratio,s.geom
-FROM business_stats b, neighborhoods n, sa2 s
-WHERE b.sa2_name = n.sa2_name
-AND s.sa2_name = n.sa2_name
-""", conn)
-
-# to correct for a business district with very few people living there, so that the later normalisation isn't whacked
-# out
-health.loc[health['ratio'] > 40, 'ratio'] = 40
-
-health['ratio'] = health['ratio'].fillna(0)
-
-health['normalised_ratio'] = normalise('ratio', health)
 
 # number of school catchment areas per 1000 young people
 sql = """
