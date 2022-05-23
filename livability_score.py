@@ -121,4 +121,28 @@ def sigmoid(x):
 merged['FINAL_SCORE'] = merged['normalised'].apply(sigmoid)
 merged.to_csv(r'task_2data.csv', index=False)
 
+
+
+## TASK 3
+# Greenhouse gas change over the past
+
+greenhouse = pd.read_sql("""
+SELECT s.sa2_name, g.suburb,  g.f2018_19, g.f2015_16, (CAST (n.population AS float)/1000) AS per_1000
+FROM sa2 s
+JOIN greenhouse_gas_per_suburb g ON (ST_OVERLAPS(s.geom, g.geom))
+FULL OUTER JOIN neighborhoods n USING (sa2_code)
+WHERE s.sa3_name = 'Sydney Inner City'
+ORDER BY sa2_name;
+""", conn)
+
+
+greenhouse.loc[greenhouse['per_1000'] < 1, 'per_1000'] = 1
+greenhouse = greenhouse.groupby(by=['sa2_name', 'per_1000']).agg({'f2018_19':'sum','f2015_16':'sum'})
+
+greenhouse = greenhouse.reset_index()
+greenhouse['change'] = greenhouse['f2015_16'] - greenhouse['f2018_19']
+greenhouse['change_per_1000'] = greenhouse['change']/greenhouse['per_1000']
+greenhouse.drop(columns = ['change', 'f2015_16', 'f2018_19', 'per_1000'], inplace=True)
+
+
 ds.close_connection(conn, db)

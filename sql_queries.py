@@ -51,8 +51,6 @@ ORDER BY suburb;
 """
 print(ds.query(conn, sql))
 
-green = pd.DataFrame(ds.query(conn, sql))
 
-green['normalised_change'] = normalise('change', green)
 
 # ds.close_connection(conn, db)
